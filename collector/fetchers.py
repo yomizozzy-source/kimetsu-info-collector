@@ -149,4 +149,7 @@ def fetch_source(src: dict) -> list[Item]:
     keywords = src.get("keywords")
     if keywords:
         items = [it for it in items if any(k in it.title for k in keywords)]
+    exclude = src.get("exclude_keywords")
+    if exclude:
+        items = [it for it in items if not any(k in it.title for k in exclude)]
     return items[: src.get("max_items", DEFAULT_MAX_ITEMS)]

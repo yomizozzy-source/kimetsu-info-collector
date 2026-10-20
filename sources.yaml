@@ -11,6 +11,7 @@
 # 共通オプション:
 #   max_items : 1ソースあたりの最大件数（既定 15）
 #   keywords  : 指定するとタイトルにいずれかを含む記事だけ残す
+#   exclude_keywords : タイトルにいずれかを含む記事を除外する
 #   enabled   : false で一時的に無効化
 
 # Google ニュースは本文中の一致でも拾うため、タイトルにこれらの語を含む記事だけ残す
@@ -55,11 +56,13 @@ sources:
 
   # ---- ガチャ（カプセルトイ） ----
   # グッズより先に置くことで、両方に引っかかった記事はガチャ側に入ります。
+  # スマホゲームのコラボガチャの記事は除外しています。
   - name: Google ニュース「ガチャ」
     type: google_news
     category: gacha
-    query: 鬼滅の刃 (ガチャ OR ガシャポン OR ガチャガチャ OR カプセルトイ) when:7d
+    query: 鬼滅の刃 (ガチャガチャ OR ガシャポン OR カプセルトイ OR ガチャ) when:7d
     keywords: *kimetsu
+    exclude_keywords: &game_words ["セナリバ", "セブンナイツ", "コラボガチャ", "ピックアップ", "引くべき", "リセマラ", "排出", "ガチャ確率", "ガチャシミュ", "GameWith", "Game8", "アプリ", "ゲーム"]
 
   # ---- グッズ ----
   - name: Google ニュース「グッズ」
@@ -100,12 +103,12 @@ sources:
 # ページ上に表示する X へのリンク（ワンタップで最新ポストを確認）
 # category を指定するとそのタブの先頭に表示（省略時は「X」タブ）
 x_links:
-  - label: 「鬼滅 ガチャ」最新ポスト
+  - label: 「鬼滅 ガチャガチャ」最新ポスト
     category: gacha
-    url: https://x.com/search?q=%E9%AC%BC%E6%BB%85%20%28%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%20OR%20%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E3%83%88%E3%82%A4%29&f=live
-  - label: 「鬼滅 ガチャ」話題のポスト（いいね100以上）
+    url: https://x.com/search?q=%E9%AC%BC%E6%BB%85%20%28%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%20OR%20%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E3%83%88%E3%82%A4%29%20-%E3%82%BB%E3%83%8A%E3%83%AA%E3%83%90%20-%E3%82%BB%E3%83%96%E3%83%B3%E3%83%8A%E3%82%A4%E3%83%84%20-%E3%82%B2%E3%83%BC%E3%83%A0%20-%E3%82%A2%E3%83%97%E3%83%AA&f=live
+  - label: 「鬼滅 ガチャガチャ」話題のポスト（いいね100以上）
     category: gacha
-    url: https://x.com/search?q=%E9%AC%BC%E6%BB%85%20%28%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%20OR%20%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E3%83%88%E3%82%A4%29%20min_faves%3A100&f=top
+    url: https://x.com/search?q=%E9%AC%BC%E6%BB%85%20%28%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%20OR%20%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E3%83%88%E3%82%A4%29%20-%E3%82%BB%E3%83%8A%E3%83%AA%E3%83%90%20-%E3%82%BB%E3%83%96%E3%83%B3%E3%83%8A%E3%82%A4%E3%83%84%20-%E3%82%B2%E3%83%BC%E3%83%A0%20-%E3%82%A2%E3%83%97%E3%83%AA%20min_faves%3A100&f=top
   - label: バンダイ ガシャポン公式の鬼滅ポスト
     category: gacha
     url: https://x.com/search?q=from%3Agashapon_bandai%20%E9%AC%BC%E6%BB%85&f=live
