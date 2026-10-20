@@ -27,6 +27,8 @@ def normalize_title(title: str) -> str:
 
 
 def dedupe(items: list[Item]) -> list[Item]:
+    # 重複時は先に出てきた方を残す。総合ニュースより分類の具体的なソースを優先する
+    items = sorted(items, key=lambda i: i.category == "news")
     seen_urls: set[str] = set()
     seen_titles: set[str] = set()
     out: list[Item] = []

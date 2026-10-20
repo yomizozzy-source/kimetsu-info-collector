@@ -6,7 +6,7 @@
 #   rss         : 任意の RSS / Atom フィード（url を指定）
 #   html_links  : Web ページ内のリンクを抽出（url と link_pattern を指定）
 #
-# category（ページ上のタブ）: official / news / goods / event / video / x
+# category（ページ上のタブ）: official / news / goods / gacha / event / video / x
 #
 # 共通オプション:
 #   max_items : 1ソースあたりの最大件数（既定 15）
@@ -38,6 +38,13 @@ sources:
     type: google_news
     category: news
     query: 鬼滅の刃 無限城編 when:2d
+
+  # ---- ガチャ（カプセルトイ） ----
+  # グッズより先に置くことで、両方に引っかかった記事はガチャ側に入ります。
+  - name: Google ニュース「ガチャ」
+    type: google_news
+    category: gacha
+    query: 鬼滅の刃 (ガチャ OR ガシャポン OR ガチャガチャ OR カプセルトイ) when:7d
 
   # ---- グッズ ----
   - name: Google ニュース「グッズ」
@@ -72,8 +79,18 @@ sources:
   #   category: x
   #   url: https://your-rsshub.example.com/twitter/user/kimetsu_off
 
-# ページ上の「X」タブに表示するリンク（ワンタップで最新ポストを確認）
+# ページ上に表示する X へのリンク（ワンタップで最新ポストを確認）
+# category を指定するとそのタブの先頭に表示（省略時は「X」タブ）
 x_links:
+  - label: 「鬼滅 ガチャ」最新ポスト
+    category: gacha
+    url: https://x.com/search?q=%E9%AC%BC%E6%BB%85%20%28%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%20OR%20%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E3%83%88%E3%82%A4%29&f=live
+  - label: 「鬼滅 ガチャ」話題のポスト（いいね100以上）
+    category: gacha
+    url: https://x.com/search?q=%E9%AC%BC%E6%BB%85%20%28%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AC%E3%82%B7%E3%83%A3%E3%83%9D%E3%83%B3%20OR%20%E3%82%AC%E3%83%81%E3%83%A3%E3%82%AC%E3%83%81%E3%83%A3%20OR%20%E3%82%AB%E3%83%97%E3%82%BB%E3%83%AB%E3%83%88%E3%82%A4%29%20min_faves%3A100&f=top
+  - label: バンダイ ガシャポン公式の鬼滅ポスト
+    category: gacha
+    url: https://x.com/search?q=from%3Agashapon_bandai%20%E9%AC%BC%E6%BB%85&f=live
   - label: アニメ公式 @kimetsu_off
     url: https://x.com/kimetsu_off
   - label: 「鬼滅の刃」最新ポスト検索

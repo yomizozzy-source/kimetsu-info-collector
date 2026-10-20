@@ -50,6 +50,11 @@ class StateTest(unittest.TestCase):
         items = parse_feed((FIX / "google_news.xml").read_bytes(), "GN", "news")
         self.assertEqual(len(main.dedupe(items)), 2)
 
+    def test_dedupe_prefers_specific_category(self):
+        news = Item("鬼滅の刃 新作ガチャ登場", "https://e/1", "GN", "news")
+        gacha = Item("鬼滅の刃 新作ガチャ登場", "https://e/1", "GNガチャ", "gacha")
+        self.assertEqual([i.category for i in main.dedupe([news, gacha])], ["gacha"])
+
     def test_merge_marks_only_unseen_and_expires_old(self):
         now = datetime(2026, 10, 20, 22, 0, tzinfo=timezone.utc)
         old = Item("昔の記事", "https://e/old", "s", "news",
@@ -112,6 +117,15 @@ class RenderTest(unittest.TestCase):
         html = render([it], {it.id}, [], datetime.now(timezone.utc), [])
         self.assertNotIn("<script>alert", html)
         self.assertNotIn('href="javascript:', html)
+
+    def test_x_links_go_to_their_tab(self):
+        links = [{"label": "ガチャ検索", "url": "https://x.com/search?q=a", "category": "gacha"},
+                 {"label": "公式X", "url": "https://x.com/kimetsu_off"}]
+        html = render([], set(), links, datetime.now(timezone.utc), [])
+        self.assertIn('data-cat="gacha" data-new="0"><a href="https://x.com/search?q=a"', html)
+        self.assertIn('data-cat="x" data-new="0"><a href="https://x.com/kimetsu_off"', html)
+        self.assertIn('data-filter="gacha">ガチャ 1<', html)
+        self.assertIn('data-filter="x">X 1<', html)
 
     def test_message(self):
         items = [Item(f"記事{i}", f"https://e/{i}", "s", "goods") for i in range(25)]

@@ -13,6 +13,7 @@ CATEGORIES = [
     ("official", "公式"),
     ("news", "ニュース"),
     ("goods", "グッズ"),
+    ("gacha", "ガチャ"),
     ("event", "イベント"),
     ("video", "動画"),
     ("x", "X"),
@@ -46,12 +47,14 @@ def render(items: list[Item], new_ids: set[str], x_links: list[dict], now: datet
     tabs = [f'<button class="tab active" data-filter="new">新着(24h) {len(new_ids)}</button>',
             f'<button class="tab" data-filter="all">すべて {len(items)}</button>']
     for key, label in CATEGORIES:
-        n = counts[key] + (len(x_links) if key == "x" else 0)
+        n = counts[key] + sum(1 for l in x_links if l.get("category", "x") == key)
         tabs.append(f'<button class="tab" data-filter="{key}">{label} {n}</button>')
 
+    # X へのリンクは指定タブ（既定は X タブ）の先頭にだけ表示する
     x_html = "".join(
-        f'<li class="item" data-cat="x" data-new="0"><a href="{_safe_url(l["url"])}" target="_blank" '
-        f'rel="noopener noreferrer">𝕏 {escape(l["label"])}</a><div class="meta"><span class="cat">X</span>リンク</div></li>'
+        f'<li class="item link" data-cat="{escape(l.get("category", "x"))}" data-new="0">'
+        f'<a href="{_safe_url(l["url"])}" target="_blank" rel="noopener noreferrer">𝕏 {escape(l["label"])}</a>'
+        f'<div class="meta"><span class="cat">X</span>最新ポストを開く</div></li>'
         for l in x_links
     )
     items_html = "".join(_item_html(it, it.id in new_ids) for it in items)
@@ -101,7 +104,7 @@ ul {{ list-style:none; padding:0; margin:0; }}
 <nav>{"".join(tabs)}</nav>
 <main>
 {err_html}
-<ul id="list">{items_html}{x_html}</ul>
+<ul id="list">{x_html}{items_html}</ul>
 <p class="empty" id="empty" hidden>この分類の記事はまだありません</p>
 </main>
 <script>
@@ -110,7 +113,8 @@ const items = document.querySelectorAll('.item');
 function apply(f) {{
   let shown = 0;
   items.forEach(el => {{
-    const ok = f === 'all' || (f === 'new' ? el.dataset.new === '1' : el.dataset.cat === f);
+    const isLink = el.classList.contains('link');
+    const ok = f === 'all' ? !isLink : f === 'new' ? el.dataset.new === '1' : el.dataset.cat === f;
     el.hidden = !ok; if (ok) shown++;
   }});
   document.getElementById('empty').hidden = shown > 0;
