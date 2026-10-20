@@ -35,6 +35,12 @@ class ParseTest(unittest.TestCase):
         self.assertTrue(items[0].published.startswith("2026-10-19"))
         self.assertEqual(items[1].title, "コラボカフェ開催のお知らせ")
 
+    def test_html_links_without_matches_is_an_error(self):
+        with mock.patch.object(fetchers, "http_get", return_value=b"<html><a href='/x'>top</a></html>"):
+            with self.assertRaises(ValueError):
+                fetchers.fetch_source({"name": "公式", "type": "html_links", "category": "official",
+                                       "url": "https://kimetsu.com/anime/news/", "link_pattern": "/anime/news/"})
+
     def test_keywords_and_max_items(self):
         with mock.patch.object(fetchers, "http_get", return_value=(FIX / "youtube.xml").read_bytes()):
             items = fetchers.fetch_source({"name": "YT", "type": "rss", "category": "video",

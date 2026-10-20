@@ -21,12 +21,20 @@ sources:
     url: https://kimetsu.com/anime/news/
     link_pattern: "/anime/news/"
 
+  # ufotable は自動アクセスを 403 で拒否するため無効化しています
   - name: ufotable NEWS
     type: html_links
     category: official
     url: https://www.ufotable.com/news/
     link_pattern: "/news/"
     keywords: ["鬼滅"]
+    enabled: false
+
+  # 公式の発表（新情報解禁・決定）を報じるニュース記事
+  - name: Google ニュース「公式発表」
+    type: google_news
+    category: official
+    query: 鬼滅の刃 (公式 OR 解禁 OR 発表 OR 決定) when:2d
 
   # ---- ニュース全般 ----
   - name: Google ニュース「鬼滅の刃」
