@@ -49,6 +49,9 @@ class ParseTest(unittest.TestCase):
             items = fetchers.fetch_source({"name": "YT", "type": "rss", "category": "video",
                                            "url": "https://x", "max_items": 1})
             self.assertEqual(len(items), 1)
+            items = fetchers.fetch_source({"name": "YT", "type": "rss", "category": "video",
+                                           "url": "https://x", "exclude_keywords": ["鬼滅"]})
+            self.assertEqual([i.title for i in items], ["別作品のPV"])
 
 
 class StateTest(unittest.TestCase):
