@@ -140,6 +140,9 @@ def fetch_source(src: dict) -> list[Item]:
         items = parse_feed(http_get(src["url"]), name, category)
     elif kind == "html_links":
         items = parse_html_links(http_get(src["url"]), src["url"], src["link_pattern"], name, category)
+        if not items:
+            # 0件のまま気づけないのを防ぐ（JS で描画するページやサイト構成の変更など）
+            raise ValueError("記事リンクが見つかりません（ページ構成が変わった可能性があります）")
     else:
         raise ValueError(f"unknown source type: {kind}")
 
