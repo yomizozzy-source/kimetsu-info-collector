@@ -13,6 +13,9 @@
 #   keywords  : 指定するとタイトルにいずれかを含む記事だけ残す
 #   enabled   : false で一時的に無効化
 
+# Google ニュースは本文中の一致でも拾うため、タイトルにこれらの語を含む記事だけ残す
+kimetsu_words: &kimetsu ["鬼滅", "きめつ", "無限城", "炭治郎", "禰豆子", "善逸", "伊之助", "柱稽古", "刀鍛冶", "遊郭"]
+
 sources:
   # ---- 公式サイト ----
   - name: アニメ公式サイト NEWS
@@ -35,17 +38,20 @@ sources:
     type: google_news
     category: official
     query: 鬼滅の刃 (公式 OR 解禁 OR 発表 OR 決定) when:2d
+    keywords: *kimetsu
 
   # ---- ニュース全般 ----
   - name: Google ニュース「鬼滅の刃」
     type: google_news
     category: news
     query: 鬼滅の刃 when:2d
+    keywords: *kimetsu
 
   - name: Google ニュース「無限城編」
     type: google_news
     category: news
     query: 鬼滅の刃 無限城編 when:2d
+    keywords: *kimetsu
 
   # ---- ガチャ（カプセルトイ） ----
   # グッズより先に置くことで、両方に引っかかった記事はガチャ側に入ります。
@@ -53,23 +59,27 @@ sources:
     type: google_news
     category: gacha
     query: 鬼滅の刃 (ガチャ OR ガシャポン OR ガチャガチャ OR カプセルトイ) when:7d
+    keywords: *kimetsu
 
   # ---- グッズ ----
   - name: Google ニュース「グッズ」
     type: google_news
     category: goods
     query: 鬼滅の刃 (グッズ OR 予約 OR 発売 OR フィギュア OR 一番くじ) when:3d
+    keywords: *kimetsu
 
   - name: Google ニュース「コラボ」
     type: google_news
     category: goods
     query: 鬼滅の刃 コラボ when:3d
+    keywords: *kimetsu
 
   # ---- イベント ----
   - name: Google ニュース「イベント」
     type: google_news
     category: event
     query: 鬼滅の刃 (イベント OR 展 OR 舞台挨拶 OR 上映 OR 入場者特典) when:3d
+    keywords: *kimetsu
 
   # ---- 動画（YouTube 公式チャンネルの RSS） ----
   # チャンネルIDは YouTube のチャンネルページ > 共有 > チャンネルIDをコピー で取得できます。
