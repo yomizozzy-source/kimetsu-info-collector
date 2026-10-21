@@ -116,6 +116,12 @@ x_links:
     url: https://x.com/kimetsu_off
   - label: ufotable @ufotable の鬼滅ポスト
     url: https://x.com/search?q=from%3Aufotable%20%E9%AC%BC%E6%BB%85&f=live
+  - label: 鬼滅の刃GOODS&情報 @goods600p
+    url: https://x.com/goods600p
+  - label: 鬼滅の刃グッズ情報 @kimetsugoods
+    url: https://x.com/kimetsugoods
+  - label: 鬼滅の刃最新情報&グッズ情報@きめつねっと @kimetsu_goods23
+    url: https://x.com/kimetsu_goods23
   - label: 「鬼滅の刃」最新ポスト検索
     url: https://x.com/search?q=%E9%AC%BC%E6%BB%85%E3%81%AE%E5%88%83&f=live
   - label: 「鬼滅 グッズ」最新ポスト検索
