@@ -114,6 +114,8 @@ x_links:
     url: https://x.com/search?q=from%3Agashapon_bandai%20%E9%AC%BC%E6%BB%85&f=live
   - label: アニメ公式 @kimetsu_off
     url: https://x.com/kimetsu_off
+  - label: ufotable @ufotable の鬼滅ポスト
+    url: https://x.com/search?q=from%3Aufotable%20%E9%AC%BC%E6%BB%85&f=live
   - label: 「鬼滅の刃」最新ポスト検索
     url: https://x.com/search?q=%E9%AC%BC%E6%BB%85%E3%81%AE%E5%88%83&f=live
   - label: 「鬼滅 グッズ」最新ポスト検索
